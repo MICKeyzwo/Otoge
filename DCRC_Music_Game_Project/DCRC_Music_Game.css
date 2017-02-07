@@ -1,0 +1,38 @@
+body {
+  background-color: black;
+  color: lime;
+  font-family: '8BITWONDERNominal';
+  font-size: 15pt;
+}
+
+.header {
+  padding: 10px;
+  border-bottom: solid 1px lime;
+  font-size: 25pt;
+  font-weight: bold;
+}
+
+.songTable {
+  text-align: center;
+}
+
+.songTable td, .songTable th {
+  padding: 10px;
+  border: solid 1px lime;
+}
+
+.sontTitle {
+  text-align: left;
+}
+
+.subTitle {
+  font-size: 9pt;
+}
+
+.songLevel {
+  width: 100px;
+}
+
+.songTable a {
+  text-decoration: none;
+}

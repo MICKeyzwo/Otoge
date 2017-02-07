@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>youtube api test</title>
+<script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+<script>
+window.onload = () => {
+  console.log(YT);
+  let player = new YT.Player(
+    "yt",
+    {
+      width: 400,
+      height: 300,
+      videoId: "t6maVVFs0As"
+    }
+  );
+}
+</script>
+</head>
+<body>
+<div id="yt"></div>
+</body>
+</html>

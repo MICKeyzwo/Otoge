@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>score maker test</title>
+<style type="text/css">
+canvas {
+	background-color: black;
+}
+</style>
+<script type="text/javascript">
+window.addEventListener("load", function(){
+
+	var canvas = document.getElementsByTagName("canvas")[0];
+	var ctx = canvas.getContext("2d");
+	canvas.width = 240;
+	canvas.height = 120;
+
+	var state = new Array(6);
+	for(var i = 0; i < 6; i++){
+		state[i] = new Array(48);
+	}
+	for(var i = 0; i < 6; i++){
+		for(var j = 0; j < 48; j++){
+			state[i][j] = 0;
+		}
+	}
+	var part = 4;
+
+	canvas.addEventListener("click", function(e){
+		var rect = e.target.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+		var lane = Math.floor(y / 20);
+		var time = Math.floor(x / (240 / part)) * (48 / part);
+		state[lane][time] = 1 - state[lane][time];
+		rePaint();
+	});
+
+	function rePaint(){
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.strokeStyle = "white";
+		ctx.lineWidth = 1;
+		for(var i = 0; i < part + 1; i++){
+			ctx.beginPath();
+			ctx.moveTo((240 / part) * i, 0);
+			ctx.lineTo((240 / part) * i, 120);
+			ctx.stroke();
+		}
+		for(var i = 0; i < 7; i++){
+			ctx.beginPath();
+			ctx.moveTo(0, 20 * i);
+			ctx.lineTo(canvas.width, 20 * i);
+			ctx.stroke();
+		}
+		for(var i = 0; i < 6; i++){
+			for(var j = 0; j < 48; j++){
+				if(state[i][j] == 1){
+					ctx.strokeStyle = "aqua";
+					ctx.lineWidth = 2;
+					ctx.beginPath();
+					ctx.moveTo(5 * j, 20 * i);
+					ctx.lineTo(5 * j, 20 * i + 20);
+					ctx.stroke();
+				}
+			}
+		}
+	}
+
+	rePaint();
+
+});
+</script>
+</head>
+<body>
+<canvas></canvas>
+</body>
+</html>

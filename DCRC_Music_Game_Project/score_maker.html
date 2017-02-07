@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Score Maker</title>
+<link rel="stylesheet" href="score_maker.css">
+<script type="text/javascript" src="score_maker.js"></script>
+<scirpt type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+<div id="control">
+編集単位：<input type="number" value="1" min="1" max="144" step="1" id="bunsu" />
+/
+<select id="bunbo">
+<option value="4">4</option>
+<option value="8">8</option>
+<option value="12">12</option>
+<option value="16">16</option>
+<option value="24">24</option>
+<option value="48">48</option>
+</select>
+　　選択ノーツ
+<select id="note">
+<option value="1">タッチノーツ</option>
+<option value="2">ホールドノーツ</option>
+<option value="0">削除</option>
+</select>
+　　<input type="button" value="小節追加" id="syouplus" />
+　　<input type="button" value="小節削除" id="syouminus" />
+<br>
+初期BPM：<input type="number" value="120" min="1" max="1000" step="0.01" id="bpm" />
+　　初期遅延：<input type="number" value="1" min="-60" max="60" step="0.01" id="diray" />
+　　全体BPM：<input type="number" value="120" min="1" max="1000" step="0.01" id="allValue" />
+　　<input type="button" value="全体のBPMを変更" id="allChange" />
+</div>
+
+<div id="timeline">
+
+</div>
+<input type="button" value="dataOutput" style="margin-top: 20px;" id="textOut" />
+<input type="button" value="saveText" id="saveText" />
+<input type="button" value="loadText" id="loadText" />
+<br>
+<textarea id="output"></textarea>
+<br>
+
+<!--<div class="syou">
+<div>1</div>
+<canvas width="240" height="180"></canvas>
+measure:<input type="number" value="48" min="1" max="144" step="1">
+<br>
+select:<input type="number" value="0" min="0" max="48" step="1">
+<br>
+bpmChange:<input type="number" value="120" min="1" max="1000" step="0.01"><input type="button" value="addEvent">
+<br>
+<select>
+
+</select>
+<input type="button" value="remove">
+</div>-->
+</body>
+</html>
