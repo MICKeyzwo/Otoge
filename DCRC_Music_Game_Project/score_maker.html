@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <title>Score Maker</title>
 <link rel="stylesheet" href="score_maker.css">
+<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/8bit-wonder" type="text/css"/>
 <script type="text/javascript" src="score_maker.js"></script>
-<scirpt type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
+<script type="text/javascript" src="DCRC_Music_Game_Main.js"></script>
+<script type="text/javascript" src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 <div id="control">
@@ -32,6 +34,7 @@
 　　初期遅延：<input type="number" value="1" min="-60" max="60" step="0.01" id="diray" />
 　　全体BPM：<input type="number" value="120" min="1" max="1000" step="0.01" id="allValue" />
 　　<input type="button" value="全体のBPMを変更" id="allChange" />
+　　音源：<input type="text" id="soundSource" />
 </div>
 
 <div id="timeline">
@@ -40,6 +43,7 @@
 <input type="button" value="dataOutput" style="margin-top: 20px;" id="textOut" />
 <input type="button" value="saveText" id="saveText" />
 <input type="button" value="loadText" id="loadText" />
+<input type="button" value="testPlay" id="testPlay" />
 <br>
 <textarea id="output"></textarea>
 <br>

@@ -1,10 +1,13 @@
-window.gameStart = function(url, score){
-
+window.addEventListener("load", () => {
   let eightBitFont = document.createElement("link");
   eightBitFont.href = "https://fontlibrary.org/face/8bit-wonder";
   eightBitFont.rel = "stylesheet";
   eightBitFont.type = "text/css";
   document.getElementsByTagName("head")[0].appendChild(eightBitFont);
+})
+
+window.gameStart = function(url, score){
+
   //console.log(url, score);
   let panel_css = `
     position: absolute;
@@ -40,6 +43,7 @@ window.gameStart = function(url, score){
     left: 0px;
     display: none;
   `;
+  let timer;
   let panel = document.createElement("div");
   panel.style = panel_css;
   let deleteButton = document.createElement("div");
@@ -121,7 +125,6 @@ window.gameStart = function(url, score){
 
   let startTime;
   let nowTime;
-  let timer;
   let noteIndex = [0, 0, 0, 0, 0, 0, 0];
   let lane = ["s", "d", "f", "j", "k", "l"];
 
@@ -131,7 +134,7 @@ window.gameStart = function(url, score){
     if(gameState == 1){
       gameState = 2;
       startTime = Date.now();
-      timer = setInterval(tick, 1000 / 60);
+      timer = setInterval(tick, 1000 / 45);
       player.playVideo();
     }else if(gameState == 2){
       keyLogger[e.key] = true;
@@ -169,11 +172,11 @@ window.gameStart = function(url, score){
           if(Math.abs((now - startTime) - drawQue[i][0][0]) < 160){
             if(Math.abs((now - startTime) - drawQue[i][0][0]) < 100){
               if(Math.abs((now - startTime) - drawQue[i][0][0]) < 60){
-                console.log("Great");
+                //console.log("Great");
                 scoreSum += scorePart;
                 effectQue[i].push([0, 0]);
               }else{
-                console.log("Good");
+                //console.log("Good");
                 scoreSum += scorePart / 2;
                 effectQue[i].push([1, 0]);
               }
@@ -185,7 +188,7 @@ window.gameStart = function(url, score){
                 }
               }
             }else{
-              console.log("Miss");
+              //console.log("Miss");
               holdOn[i] = 0;
               effectQue[i].push([2, 0]);
             }
@@ -196,16 +199,16 @@ window.gameStart = function(url, score){
         if(drawQue[i][0] && drawQue[i][0][1] == 3){
           if(Math.abs((now - startTime) - drawQue[i][0][0]) < 100){
             if(Math.abs((now - startTime) - drawQue[i][0][0]) < 60){
-              console.log("Great");
+              //console.log("Great");
               scoreSum += scorePart;
               effectQue[i].push([0, 0]);
             }else{
-              console.log("Good");
+              //console.log("Good");
               scoreSum += scorePart / 2;
               effectQue[i].push([1, 0]);
             }
           }else{
-            console.log("Miss");
+            //console.log("Miss");
             effectQue[i].push([2, 0]);
           }
           drawQue[i].shift();
@@ -316,7 +319,7 @@ window.gameStart = function(url, score){
             if(end >= 400){
               drawQue[i].shift();
               effectQue[i].push([0, 0]);
-              console.log("Great");
+              //console.log("Great");
               scoreSum += scorePart;
               holdOn[i] = 0;
             }else{

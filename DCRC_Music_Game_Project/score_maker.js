@@ -46,7 +46,7 @@ window.addEventListener("load", function(){
     }
   });
 
-  getE("textOut").addEventListener("click", function(){
+  function makeScore(){
     let result = new Array(7);
     for(let i = 0; i < 7; i++){
       result[i] = [];
@@ -85,7 +85,7 @@ window.addEventListener("load", function(){
         t += dis;
       }
     }
-    let str = "[";
+    let str = `gameStart("${getE("soundSource").value}",[`;
     for(let i = 0; i < 6; i++){
       str += "[";
       for(let j = 0; j < result[i].length; j++){
@@ -102,9 +102,13 @@ window.addEventListener("load", function(){
     for(let i = 0; i < result[6].length; i++){
       str += result[6][i] + (i < result[6].length - 1 ? "," : "");
     }
-    str += "]]";
+    str += "]])";
+    return str;
+  }
+  getE("textOut").addEventListener("click", function(){
+    let str = makeScore();
     getE("output").value = str;
-    console.log(eval(str));
+    //console.log(eval(str));
   });
   getE("saveText").addEventListener("click", function(){
     let result = "[{firstBpm:" + firstBpm + ",firstDiray:" + firstDiray + "},";
@@ -141,7 +145,7 @@ window.addEventListener("load", function(){
       fumen = [];
       for(let i = 0; i < source.length - 1; i++){
         fumen.push(new Syousetsu(i));
-        console.log(fumen[i])
+        //console.log(fumen[i])
         fumen[i].measure = source[i + 1].measure;
         fumen[i].score = source[i + 1].score;
         fumen[i].bpmChanges = source[i + 1].bpmChanges;
@@ -152,6 +156,12 @@ window.addEventListener("load", function(){
       console.log(exc);
       alert(exc.toString());
     }
+  });
+  getE("testPlay").addEventListener("click", function(e){
+    e.target.blur();
+    let str = makeScore();
+    //console.log(str);
+    eval(str);
   });
 
   function createSyousetsuClass(){
