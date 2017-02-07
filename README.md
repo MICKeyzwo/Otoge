@@ -1,0 +1,2 @@
+# Otoge
+JavaScript Rhythm game
