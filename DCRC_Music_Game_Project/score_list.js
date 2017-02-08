@@ -14,6 +14,13 @@
       "src": ["score/Break_The_Silence/Break_The_Silence_e.js",
               "score/Break_The_Silence/Break_The_Silence_n.js",
               "score/Break_The_Silence/Break_The_Silence_h.js"]
+    },{
+      "title": "READY!!",
+      "subtitle": "Satoru Kosaki / THEIDOLM@STER",
+      "level": [2, 2, 2],
+      "src": ["score/READY!!/READY!!_e.js",
+              "score/READY!!/READY!!_n.js",
+              "score/READY!!/READY!!_h.js"]
     }
   ])
 })();
