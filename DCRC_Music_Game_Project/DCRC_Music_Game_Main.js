@@ -4,7 +4,7 @@ window.addEventListener("load", () => {
   eightBitFont.rel = "stylesheet";
   eightBitFont.type = "text/css";
   document.getElementsByTagName("head")[0].appendChild(eightBitFont);
-})
+});
 
 window.gameStart = function(url, score){
 
