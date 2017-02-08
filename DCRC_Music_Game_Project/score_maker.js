@@ -111,7 +111,7 @@ window.addEventListener("load", function(){
     //console.log(eval(str));
   });
   getE("saveText").addEventListener("click", function(){
-    let result = "[{firstBpm:" + firstBpm + ",firstDiray:" + firstDiray + "},";
+    let result = `[{firstBpm:${firstBpm},firstDiray:${firstDiray},soundSource:"${getE("soundSource").value}"},`;
     for(let i = 0; i < fumen.length; i++){
       result += "{measure:" + fumen[i].measure + ",";
       result += "score:[";
@@ -137,6 +137,8 @@ window.addEventListener("load", function(){
       let source = eval(getE("output").value);
       firstBpm = source[0].firstBpm;
       firstDiray = source[0].firstDiray;
+      getE("soundSource").value = source[0].soundSource;
+      //console.log(source[0].soundSource);
       getE("bpm").value = firstBpm;
       getE("diray").value = firstDiray;
       for(let i = 0; i < fumen.length; i++){
