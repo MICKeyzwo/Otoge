@@ -81,6 +81,7 @@ window.gameStart = function(url, score){
             if(player.getPlayerState() == 1){
               player.pauseVideo();
               player.seekTo(0);
+            }else if(player.getPlayerState() == 2){
               ctx.font = "9pt '8BITWONDERNominal'";
               ctx.fillStyle = "lime";
               ctx.fillText("press any key", 280, 240);
@@ -133,9 +134,9 @@ window.gameStart = function(url, score){
   function keyDown(e){
     if(gameState == 1){
       gameState = 2;
+      player.playVideo();
       startTime = Date.now();
       timer = setInterval(tick, 1000 / 45);
-      player.playVideo();
     }else if(gameState == 2){
       keyLogger[e.key] = true;
     }
