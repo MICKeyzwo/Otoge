@@ -55,6 +55,7 @@ window.gameStart = function (url, score) {
     deleteE(panel);
     panel = null;
     clearInterval(timer);
+    if (!player.paused) player.pause();
   });
   panel.appendChild(deleteButton);
   let canvas = document.createElement("canvas");
@@ -153,6 +154,9 @@ window.gameStart = function (url, score) {
       timer = setInterval(tick, 1000 / 45);
     } else if (gameState == 2) {
       keyLogger[e.key] = true;
+    } else if (gameState == 3) {
+      gameState = 2;
+      player.play();
     }
   }
   function keyUp(e) {
@@ -167,25 +171,58 @@ window.gameStart = function (url, score) {
   function update() {
 
     //now = Date.now();
-    curTime = player.currentTime * 1000;
-    for (let i = 0; i < 6; i++) {
-      if (noteIndex[i] >= score[i].length) continue;
-      while (score[i][noteIndex[i]].time - 1000 <= curTime) {
-        drawQue[i].push([score[i][noteIndex[i]].time, score[i][noteIndex[i]].type]);
-        noteIndex[i]++;
-        if (noteIndex[i] >= score[i].length) break;
-      }
-    }
-    while (score[6][noteIndex[6]] - 1000 <= curTime) {
-      if (!score[6][noteIndex[6]]) break;
-      drawQue[6].push(score[6][noteIndex[6]]);
-      noteIndex[6]++;
-    }
 
-    for (let i = 0; i < 6; i++) {
-      if (!recent[lane[i]] && keyLogger[lane[i]]) {
-        if (drawQue[i][0] && (drawQue[i][0][1] == 1 || drawQue[i][0][1] == 2)) {
-          if (Math.abs((curTime) - drawQue[i][0][0]) < 160) {
+    if (keyLogger.Escape) {
+      player.pause();
+      gameState = 3;
+      return;
+    } else {
+      curTime = player.currentTime * 1000;
+      for (let i = 0; i < 6; i++) {
+        if (noteIndex[i] >= score[i].length) continue;
+        while (score[i][noteIndex[i]].time - 1000 <= curTime) {
+          drawQue[i].push([score[i][noteIndex[i]].time, score[i][noteIndex[i]].type]);
+          noteIndex[i]++;
+          if (noteIndex[i] >= score[i].length) break;
+        }
+      }
+      while (score[6][noteIndex[6]] - 1000 <= curTime) {
+        if (!score[6][noteIndex[6]]) break;
+        drawQue[6].push(score[6][noteIndex[6]]);
+        noteIndex[6]++;
+      }
+
+      for (let i = 0; i < 6; i++) {
+        if (!recent[lane[i]] && keyLogger[lane[i]]) {
+          if (drawQue[i][0] && (drawQue[i][0][1] == 1 || drawQue[i][0][1] == 2)) {
+            if (Math.abs((curTime) - drawQue[i][0][0]) < 160) {
+              if (Math.abs((curTime) - drawQue[i][0][0]) < 100) {
+                if (Math.abs((curTime) - drawQue[i][0][0]) < 60) {
+                  //console.log("Great");
+                  scoreSum += scorePart;
+                  effectQue[i].push([0, 0]);
+                } else {
+                  //console.log("Good");
+                  scoreSum += scorePart / 2;
+                  effectQue[i].push([1, 0]);
+                }
+                if (drawQue[i][0][1] == 2) {
+                  holdOn[i] = 1;
+                  if (drawQue[i].length == 1) {
+                    drawQue[i].push([score[i][noteIndex[i]].time, score[i][noteIndex[i]].type]);
+                    noteIndex[i]++;
+                  }
+                }
+              } else {
+                //console.log("Miss");
+                holdOn[i] = 0;
+                effectQue[i].push([2, 0]);
+              }
+              drawQue[i].shift();
+            }
+          }
+        } else if (recent[lane[i]] && !keyLogger[lane[i]]) {
+          if (drawQue[i][0] && drawQue[i][0][1] == 3) {
             if (Math.abs((curTime) - drawQue[i][0][0]) < 100) {
               if (Math.abs((curTime) - drawQue[i][0][0]) < 60) {
                 //console.log("Great");
@@ -196,39 +233,13 @@ window.gameStart = function (url, score) {
                 scoreSum += scorePart / 2;
                 effectQue[i].push([1, 0]);
               }
-              if (drawQue[i][0][1] == 2) {
-                holdOn[i] = 1;
-                if (drawQue[i].length == 1) {
-                  drawQue[i].push([score[i][noteIndex[i]].time, score[i][noteIndex[i]].type]);
-                  noteIndex[i]++;
-                }
-              }
             } else {
               //console.log("Miss");
-              holdOn[i] = 0;
               effectQue[i].push([2, 0]);
             }
             drawQue[i].shift();
+            holdOn[i] = 0;
           }
-        }
-      } else if (recent[lane[i]] && !keyLogger[lane[i]]) {
-        if (drawQue[i][0] && drawQue[i][0][1] == 3) {
-          if (Math.abs((curTime) - drawQue[i][0][0]) < 100) {
-            if (Math.abs((curTime) - drawQue[i][0][0]) < 60) {
-              //console.log("Great");
-              scoreSum += scorePart;
-              effectQue[i].push([0, 0]);
-            } else {
-              //console.log("Good");
-              scoreSum += scorePart / 2;
-              effectQue[i].push([1, 0]);
-            }
-          } else {
-            //console.log("Miss");
-            effectQue[i].push([2, 0]);
-          }
-          drawQue[i].shift();
-          holdOn[i] = 0;
         }
       }
     }
@@ -377,6 +388,18 @@ window.gameStart = function (url, score) {
           j--;
         }
       }
+    }
+
+    if (gameState == 3) {
+      ctx.save();
+      ctx.globalAlpha = .75;
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, ctx.canvas.height);
+      ctx.globalAlpha = 1;
+      ctx.font = "9pt '8BITWONDERNominal'";
+      ctx.fillStyle = "lime";
+      ctx.fillText("press any key", 280, 240);
+      ctx.restore();
     }
 
   }
